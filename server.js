@@ -20,7 +20,7 @@ var PORT = process.env.PORT || 8080;
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "./public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 
 
@@ -30,21 +30,20 @@ app.use(express.static(path.join(__dirname, "./public")));
 // These routes give our server a "map" of how to respond when users visit or request data from various URLs.
 // ================================================================================
 
-var noteData = require("./db/db")
 
 
 
 
 
-fs.readFile("db.json", function (err, data) {
 
-})
 
 app.get("/api/notes", function (req, res) {
+  let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
   res.json(noteData);
 });
 
 app.get("/api/notes/:id", function (req, res) {
+  let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
   var note = req.params.id;
 
   console.log(note);
@@ -57,12 +56,14 @@ app.get("/api/notes/:id", function (req, res) {
 })
 
 app.post("/api/notes", function (req, res) {
+  let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
   console.log("body", req.body);
   var title = req.body.title;
   var text = req.body.text;
   var id = noteData.length;
   let note = { title, text, id };
   noteData.push(note);
+  fs.writeFileSync("./db/db.json", JSON.stringify(noteData));
   res.json(true);
 });
 
@@ -74,7 +75,7 @@ app.delete("/api/clear", function (req, res) {
 
 
 app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "./public/notes.html"));
+  res.sendFile(path.join(__dirname, "/public/notes.html"));
 });
 
 app.get("*", function (req, res) {
