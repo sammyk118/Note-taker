@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, "./public")));
 // These routes give our server a "map" of how to respond when users visit or request data from various URLs.
 // ================================================================================
 
-var noteData = []
+var noteData = require("./db/db")
 
 
 
@@ -46,10 +46,13 @@ app.get("/api/notes", function (req, res) {
 
 
 app.post("/api/notes", function (req, res) {
-  console.log(req.body);
-  var data = req.body;
-  noteData.push(req.body);
-
+  console.log("body", req.body);
+  var title = req.body.title;
+  var text = req.body.text;
+  var id = noteData.length;
+  let note = { title, text, id };
+  noteData.push(note);
+  res.json(true);
 });
 
 app.delete("/api/clear", function (req, res) {
