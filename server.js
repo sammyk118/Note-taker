@@ -44,6 +44,17 @@ app.get("/api/notes", function (req, res) {
   res.json(noteData);
 });
 
+app.get("/api/notes/:id", function (req, res) {
+  var note = req.params.id;
+
+  console.log(note);
+  for (var i = 0; i < noteData.length; i++){
+    if (note === noteData[i].id) {
+      console.log(note);
+      console.log(noteData[i].id)
+    }     
+  }
+})
 
 app.post("/api/notes", function (req, res) {
   console.log("body", req.body);
