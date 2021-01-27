@@ -4,12 +4,12 @@ const path = require('path');
 module.exports = app => {
 
     app.get("/api/notes", function (req, res) {
-        let noteData = JSON.parse(fs.readFileSync("../db/db.json", "utf8"));
+        let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
         res.json(noteData);
     });
   
     app.get("/api/notes/:id", function (req, res) {
-        let noteData = JSON.parse(fs.readFileSync("../db/db.json", "utf8"));
+        let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
         var note = req.params.id;
   
         console.log("get each note", note);
@@ -23,7 +23,7 @@ module.exports = app => {
     })
   
     app.post("/api/notes", function (req, res) {
-        let noteData = JSON.parse(fs.readFileSync("../db/db.json", "utf8"));
+        let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
         console.log("body", req.body);
         var title = req.body.title;
         var text = req.body.text;
@@ -36,7 +36,7 @@ module.exports = app => {
     });
   
     app.delete("/api/notes/:id", function (req, res) {
-        let noteData = JSON.parse(fs.readFileSync("../db/db.json", "utf8"));
+        let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
         let note = req.body;
         noteData = noteData.filter(currNote => {
             return currNote.id != note.id;
@@ -48,7 +48,7 @@ module.exports = app => {
             idCount++;
         }
   
-        fs.writeFileSync("../db/db.json", JSON.stringify(noteData));
+        fs.writeFileSync("./db/db.json", JSON.stringify(noteData));
         res.json(noteData);
     });
   
