@@ -9,7 +9,6 @@ let activeNote = {};
 
 // A function for getting all notes from the db
 const getNotes = () => {
-  console.log("getnotes")
   return $.ajax({
     url: "/api/notes",
     method: "GET",
@@ -18,7 +17,6 @@ const getNotes = () => {
 
 // A function for saving a note to the db
 const saveNote = (note) => {
-  console.log("savenote")
   return $.ajax({
     url: "/api/notes",
     data: note,
@@ -36,7 +34,6 @@ const deleteNote = (id) => {
 
 // If there is an activeNote, display it, otherwise render empty inputs
 const renderActiveNote = () => {
-  console.log("renderactivenote")
   $saveNoteBtn.hide();
 
   if (activeNote.id) {
@@ -54,7 +51,6 @@ const renderActiveNote = () => {
 
 // Get the note data from the inputs, save it to the db and update the view
 const handleNoteSave = function () {
-  console.log("saving note");
   const newNote = {
     title: $noteTitle.val(),
     text: $noteText.val(),
@@ -85,7 +81,6 @@ const handleNoteDelete = function (event) {
 
 // Sets the activeNote and displays it
 const handleNoteView = function () {
-  console.log("display active note");
   activeNote = $(this).data();
   renderActiveNote();
 };
@@ -132,7 +127,7 @@ const renderNoteList = (notes) => {
     noteListItems.push(create$li("No saved Notes", false));
   }
 
-  notes.slice(1).forEach((note) => {
+  notes.forEach((note) => {
     const $li = create$li(note.title).data(note);
     noteListItems.push($li);
   });
@@ -142,9 +137,7 @@ const renderNoteList = (notes) => {
 
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => {
-  return getNotes().then(function (data) {
-    renderNoteList
-  });
+  return getNotes().then(renderNoteList);
 };
 
 $saveNoteBtn.on("click", handleNoteSave);
