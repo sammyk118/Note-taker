@@ -9,5 +9,9 @@ module.exports = function (app) {
 
     app.post("/api/notes", function (req, res) {
         noteData.push(req.body);
+    });
+
+    app.put("/api/clear", function (req, res) {
+        console.log("this will delete things");
     })
 }
