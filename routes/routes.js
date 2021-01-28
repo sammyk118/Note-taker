@@ -4,43 +4,23 @@ const path = require('path');
 module.exports = app => {
 
     app.get("/api/notes", function (req, res) {
-        if (noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"))) {
-            res.json(noteData);
-        }
-        else
-            console.log("empty json file")
+        noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"))
+        res.json(noteData);
     });
-
-    app.get("/api/notes/:id", function (req, res) {
-        let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
-        var note = req.params.id;
-
-        console.log("get each note", note);
-        // for (var i = 0; i < noteData.length; i++){
-        //   if (note === noteData[i].id) {
-        //     console.log(note);
-        //     console.log(noteData[i].id)
-        //   }     
-        // }
-        res.JSON(noteData[req.params.id]);
-    })
 
     app.post("/api/notes", function (req, res) {
         let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
-        if (noteData === undefined) {
-            console.log("empty db");
 
-        }
-        else {
-            req.body.id = noteData.length;
-            console.log("note data: ", noteData)
-            console.log(noteData.length);
-            // console.log((noteData[noteData.length - 1].id) + 1);
-            noteData.push(req.body);
-            fs.writeFileSync("./db/db.json", JSON.stringify(noteData));
-            console.log("saved to json file: ", req.body);
-            res.json(noteData);
-        }
+        // give current note an id
+        req.body.id = noteData.length;
+
+        // push current note to noteData
+        noteData.push(req.body);
+
+        //write back to db
+        fs.writeFileSync("./db/db.json", JSON.stringify(noteData));
+        console.log("saved to json file: ", req.body);
+        res.json(noteData);
     });
 
     app.delete("/api/notes/:id", function (req, res) {
@@ -52,7 +32,11 @@ module.exports = app => {
         res.json(noteData);
     });
 
-
+    app.get("/api/notes/:id", function (req, res) {
+        let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+        var note = req.params.id;
+        res.JSON(noteData[req.params.id]);
+    })
 
 
     app.get("/notes", function (req, res) {
