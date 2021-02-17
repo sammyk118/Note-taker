@@ -6,7 +6,7 @@ This note taking application lets you write, save, and delete notes. It is hoste
 
 [Deployed Heroku Site](https://thawing-inlet-60871.herokuapp.com/)
 
-![example gif](./public/assets/note-taker-demo.gif)
+![example gif](./public/assets/Note-taker-demo.gif)
 
 ## Used Technologies
 - Express
